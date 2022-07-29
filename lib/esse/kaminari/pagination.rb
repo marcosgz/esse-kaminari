@@ -17,9 +17,12 @@ module Esse
             def #{::Kaminari.config.page_method_name}(num=nil)
               reset!
 
+              @page  = [num.to_i, 1].max
+              @per_page ||= limit_value
+
               definition.update(
-                size: limit_value,
-                from: (limit_value * ([num.to_i, 1].max - 1))
+                size: @per_page,
+                from: @per_page * (@page - 1),
               )
 
               self
@@ -36,7 +39,7 @@ module Esse
         end
 
         def total_count
-          response.total 
+          response.total
         end
 
         def paginated_results
@@ -44,12 +47,20 @@ module Esse
         end
 
         def limit(value)
-          definition.update(size: value)
+          return self if value.to_i <= 0
+          reset!
+          @per_page = value.to_i
+
+          definition.update(size: @per_page)
+          definition.update(from: @per_page * (@page - 1)) if @page
           self
         end
 
         def offset(value)
-          definition.update(from: value)
+          return self if value.to_i < 0
+          reset!
+          @page = nil
+          definition.update(from: value.to_i)
           self
         end
 

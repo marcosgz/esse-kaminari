@@ -20,15 +20,15 @@ RSpec.describe Esse::Kaminari do
     it { expect(query.limit_value).to eq(17) }
 
     it 'modifies the :from value of query definition' do
-      expect { 
+      expect {
         query.page(4)
       }.to change { query.definition.values_at(:from, :size) }.from([nil, nil]).to([51, 17])
     end
 
     it 'modifies the query :from and :size values of query definition' do
-      expect { 
-        query.page(10).per(20)
-      }.to change { query.definition.values_at(:from, :size) }.from([nil, nil]).to([140, 20])
+      expect {
+        query.page(3).per(10)
+      }.to change { query.definition.values_at(:from, :size) }.from([nil, nil]).to([20, 10])
     end
 
     shared_examples_for 'a search request that can be paginated' do
