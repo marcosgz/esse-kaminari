@@ -31,6 +31,14 @@ RSpec.describe Esse::Kaminari do
       }.to change { query.definition.values_at(:from, :size) }.from([nil, nil]).to([20, 10])
     end
 
+
+    it 'updates the :from and :size values of query definition when the :size is already defined' do
+      query.page(1).per(5)
+      expect {
+        query.page(3).per(100)
+      }.to change { query.definition.values_at(:from, :size) }.from([0, 5]).to([200, 100])
+    end
+
     shared_examples_for 'a search request that can be paginated' do
       let(:response) { Esse::Search::Response.new(query, raw_response) }
 

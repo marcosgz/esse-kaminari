@@ -10,7 +10,7 @@ GIT
 PATH
   remote: .
   specs:
-    esse-kaminari (0.1.0)
+    esse-kaminari (0.1.1)
       esse
       kaminari
 
