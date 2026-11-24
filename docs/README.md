@@ -56,4 +56,4 @@ Methods added to `Esse::Search::Query`:
 
 ## License
 
-MIT.
+GPL-3.0-or-later.
